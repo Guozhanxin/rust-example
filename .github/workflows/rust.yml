@@ -5,6 +5,22 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: ${{ matrix.legs.examples }}
+    strategy:
+      fail-fast: false
+      matrix:
+       legs:
+         - {EXAMPLE_NAME: "hello_cargo"}
+         - {EXAMPLE_NAME: "guessing_game"}
+         - {EXAMPLE_NAME: "enum_message"}
+         - {EXAMPLE_NAME: "largest_T"}
+         - {EXAMPLE_NAME: "minigrep"}
+         - {EXAMPLE_NAME: "my_box"}
+         - {EXAMPLE_NAME: "option"}
+         - {EXAMPLE_NAME: "point_T"}
+         - {EXAMPLE_NAME: "slice_string"}
+         - {EXAMPLE_NAME: "struct_rectangle"}
+         - {EXAMPLE_NAME: "use_as"}
 
     steps:
       - uses: actions/checkout@v1
@@ -12,6 +28,8 @@ jobs:
 
       - name: Build
         shell: bash
+        env:
+          EXAMPLE_NAME: ${{ matrix.legs.EXAMPLE_NAME }}
         run: |
-          cd hello_cargo
+          cd $EXAMPLE_NAME
           cargo build
